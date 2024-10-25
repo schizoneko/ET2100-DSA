@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+typedef struct{
+    int ngay;
+    int thang;
+    int nam;
+} Ngay;
+
+typedef struct {
+    char maSV[8]; 
+    char hoTen[50]; 
+    int gioiTinh; 
+    Ngay ngaySinh; 
+    char diaChi[100]; 
+    char lop[12]; 
+    char khoa[7];
+} SinhVien;
+
+typedef struct {
+    SinhVien data; 
+    Node *link;
+} Node;
+
+typedef struct {
+    Node *first; 
+    Node *last;
+} List;
+
+int main(){
+    
+}
