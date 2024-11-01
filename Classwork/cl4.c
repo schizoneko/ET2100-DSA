@@ -9,11 +9,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void swap(int *a, int *b){
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 typedef struct {
     int ngay;
     int thang;
     int nam;
-} Ngay; //Struct ngay
+} Ngay; //Tạo struct Ngay
 
 typedef struct {
     char maSV[8]; 
@@ -35,12 +42,12 @@ typedef struct {
     Node *last;
 } List; //Tao list moi
 
-void init(List *list) {
+void init(List *list) { //Khởi tạo List sinh viên
     list->first = 0;    //NULL
     list->last = 0;   //NULL
 }
 
-Node* taoNode(SinhVien sv) {
+Node* taoNode(SinhVien sv) { //Tạo 1 Node mang thông tin của struct sinh viên, chưa có link 
     Node *p = (Node*)malloc(sizeof(Node)); // cap phat bo nho cho node
     if (p != NULL) {
         p->data = sv;
@@ -52,13 +59,15 @@ Node* taoNode(SinhVien sv) {
     return p;
 } 
 
-void List_Add(List *list, SinhVien sv) {
-    Node *p = taoNode(sv);
-    if (l.first == NULL) {   // Danh sách rỗng
-        l.first = l.last = p;
-    } else {                 // Thêm vào cuối danh sách
-        l.last->link = p;
-        l.last = p;
+void List_Add(List *list, SinhVien sv) { //Add Note vào List sinh viên
+    Node *p = taoNode(sv); //Đầu tiên phải tạo 1 Node mang thông tin Sinh vien trước
+    if (p == NULL) return;
+    
+    if (list->first == NULL) {   //Nếu danh sách rỗng, thêm Node này làm Node đầu tiên
+        list->first = list->last = p;
+    } else {                     // Thêm vào cuối danh sách
+        list->last->link = p;
+        list->last = p;
     }
 }
 
@@ -103,7 +112,7 @@ void nhapDanhSachSinhVien(List &l) {
     for (int i = 0; i < n; i++) {
         printf("\nNhap thong tin sinh vien thu %d:\n", i + 1);
         SinhVien sv = nhapSinhVien();
-        addLast(l, sv);
+        List_Add(l, sv);
     }
 }
 
@@ -125,12 +134,11 @@ void inDanhSachSinhVien(List l) {
 
 int main() {
     List l;
-    init(l);  // Khởi tạo danh sách
+    init(&l);
     
-    nhapDanhSachSinhVien(l);  // Nhập danh sách sinh viên
+    nhapDanhSachSinhVien(&l);  // Nhập danh sách sinh viên và tự động sắp xếp
     
-    printf("\nDanh sach sinh vien:\n");
-    inDanhSachSinhVien(l);  // In danh sách sinh viên
-    
+    printf("\nDanh sach sinh vien (da sap xep theo ma SV):\n");
+    inDanhSachSinhVien(&l);  // In danh sách sinh viên
     return 0;
 }
