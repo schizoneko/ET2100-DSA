@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+//Merge Sort
+
 void MergeArrays(int a[], int m, int n, int p){
     int i = m;
     int j = n + 1;
