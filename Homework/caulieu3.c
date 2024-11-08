@@ -35,15 +35,35 @@ void insert_Node(List *list, float coef, int exp) {
         list->first = newNode; //Con trỏ first(trỏ vị trí đầu của list) lúc này sẽ cho trỏ vào cái node mà mình vừa thêm -> nghĩa là node vừa thêm được làm node đầu tiên của list
         if (list->last == NULL) list->last = newNode; //Nếu List lúc này mới chỉ có 1 Node(newNode) mình vừa thêm tức con trỏ last của List vẫn đang là Null -> cho nó trỏ vào Node duy nhất này (vừa là đầu vừa là cuối), và để sau này khi Node này không còn là Node đầu thì nó vẫn là Node cuối của List
     } else {
-        Node* current = list->first; 
+        Node* current = list->first; //Tạo con trỏ current để duyệt List, tránh thay đổi vị trí của first và last, cho current bắt đầu từ first
         while (current->link != NULL && current->link->exp > exp) {
             current = current->link;
-        }
+        } //Cho con trỏ current chạy qua List với điều kiện exponent của Node tiếp theo lớn hơn exponent của newNode (tức là đang bị ngược và đảo lại sắp xếp cho số mũ giảm dần) thì dịch con trỏ sang Node tiếp theo
         newNode->link = current->link;
-        current->link = newNode;
-        if (newNode->link == NULL) list->last = newNode;
+        current->link = newNode; //2 dòng trên tương tự chèn vào đầu, nhưng thay vì chèn vào đầu thì nó là chèn vào current mà không thỏa mãn điều kiện vòng while ở trên (tức hiện tại số mũ của newNode lớn hơn số mũ của node đằng sau current)
+        if (newNode->link == NULL) list->last = newNode; //Nếu dừng ở nút cuối cùng (tức exponent của newNode đang bé nhất) thì coi nó là node cuối luôn
     }
 }
+
+void input_Polynomial(List *poly) {
+    int n;
+    printf("Enter the number of terms in the polynomial: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        float coef;
+        int exp;
+
+        printf("Enter the coefficient and exponent of term %d:\n", i + 1);
+        printf("Coefficient: ");
+        scanf("%f", &coef);
+        printf("Exponent: ");
+        scanf("%d", &exp);
+
+        insert_Node(poly, coef, exp);
+    } //Vòng lặp số số hạng có trong 1 phương trình, với mỗi phần tử là 1 Node và được khởi tạo bởi hàm insert_Node ngay sau khi nhập coef và exp
+}
+
 
 
 
