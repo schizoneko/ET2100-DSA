@@ -76,29 +76,92 @@ void input_Polynomial(List *poly) {
 }
 
 void print_Polynomial(List *list) {
-    Node* current = list->first;
+    Node* current = list->first; //Tạo 1 con trỏ Node current cho nó trỏ vào giá trị đầu tiên
     while (current != NULL) {
         if (current->coef > 0 && current != list->first) {
             printf(" + ");
         }
         if (current->exp == 0) {
             printf("%.1f", current->coef);
-        } else if (current->exp == 1) {
+        } 
+        else if (current->exp == 1) {
             printf("%.1fx", current->coef);
-        } else {
+        } 
+        else {
             printf("%.1fx^%d", current->coef, current->exp);
         }
         current = current->link;
+    } //Cho con trỏ current chạy qua List, tức duyệt qua cái đa thức đấy
+    printf("\n"); //Và in đa thức dưới dạnga x^n + bx^(n-1) + ... + cx + d
+}
+
+Node* add_Polynomial(List *poly1, List *poly2) {
+    List sum; 
+    init(&sum);
+
+    Node *p1 = poly1->first;
+    Node *p2 = poly2->first;
+
+    while (p1 != NULL || p2 != NULL) {
+        float coef;
+        int exp;
+
+        if (p1 == NULL) { 
+            // Nếu chỉ còn giá trị của đa thức 2 thì thêm trực tiếp vào tổng
+            coef = p2->coef;
+            exp = p2->exp;
+            p2 = p2->link;
+        }
+        else if (p2 == NULL) {
+            // Nếu chỉ còn giá trị của đa thức 1 thì thêm trực tiếp vào tổng
+            coef = p1->coef;
+            exp = p1->exp;
+            p1 = p1->link;
+        }
+        else if (p1->exp > p2->exp) {
+            // Nếu bậc của p1 lớn hơn, thêm giá trị của p1 vào tổng và di chuyển p1
+            coef = p1->coef;
+            exp = p1->exp;
+            p1 = p1->link;
+        } 
+        else if (p1->exp < p2->exp) {
+            // Nếu bậc của p2 lớn hơn, thêm giá trị của p2 vào tổng và di chuyển p2
+            coef = p2->coef;
+            exp = p2->exp;
+            p2 = p2->link;
+        } 
+         else {
+            // Nếu bậc của p1 và p2 bằng nhau, cộng hệ số và thêm vào tổng nếu khác 0
+            coef = p1->coef + p2->coef;
+            exp = p1->exp;
+
+            // Lưu trữ các Node hiện tại để có thể giải phóng bộ nhớ nếu cần
+            Node* temp1 = p1;
+            Node* temp2 = p2;
+            p1 = p1->link;
+            p2 = p2->link;
+
+            if (coef == 0) {
+                free(temp1);  // Giải phóng bộ nhớ cho Node có hệ số bằng 0
+                free(temp2);
+                continue;  // Bỏ qua bước chèn và tiếp tục vòng lặp
+            }
+        }
+
+        if (coef != 0) {
+            insert_Node(&sum, coef, exp); // Thêm hệ số và bậc vào tổng
+        }
     }
-    printf("\n");
+
+    return sum.first; // Trả về con trỏ đầu của danh sách kết quả
 }
 
 
-
 int main() {
-    List poly1, poly2;  // Khởi tạo List
+    List poly1, poly2, sum;  // Khởi tạo List
     init(&poly1);
     init(&poly2);
+    init(&sum);
 
     printf("Enter the first polynomial\n");
     input_Polynomial(&poly1);
@@ -109,5 +172,10 @@ int main() {
     print_Polynomial(&poly1);
     printf("Second polynomial: ");
     print_Polynomial(&poly2);
+
+    printf("The sum of these polynomials is: ");
+    sum.first = add_Polynomial(&poly1, &poly2);
+    print_Polynomial(&sum);
+
     return 0;
 }
