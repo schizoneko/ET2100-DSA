@@ -9,20 +9,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void swap(int *a, int *b){
-    int temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-typedef struct {
+typedef struct Ngay {
     int ngay;
     int thang;
     int nam;
 } Ngay; //Tạo struct Ngay
 
-typedef struct {
+typedef struct SinhVien {
     char maSV[8]; 
     char hoTen[50]; 
     int gioiTinh; 
@@ -32,12 +25,12 @@ typedef struct {
     char khoa[7];
 } SinhVien; //Struct Sinh vien
 
-typedef struct {
+typedef struct Node {
     SinhVien data; 
-    Node *link;
+    struct Node *link;
 } Node; //Tao node moi
 
-typedef struct {
+typedef struct List {
     Node *first; 
     Node *last;
 } List; //Tao list moi

@@ -7,9 +7,9 @@ typedef struct Node {
     float coef; //Hệ số
     int exp; //Số mũ
     struct Node *link; //Con trỏ dạng Node
-} Node; //Tạo struct tên Node mới
+} Node; //Tạo struct kiểu Node tên Node mới
 
-typedef struct {
+typedef struct List{
     Node *first; 
     Node *last; //Khởi tạo con trỏ dạng Node để 1 cái trỏ vào vị trí Node đầu của List và 1 cái vào cuối List
 } List; //Tạo struct tên List
@@ -98,7 +98,7 @@ void print_Polynomial(List *list) {
 Node* add_Polynomial(List *poly1, List *poly2) {
     List sum; 
     init(&sum);
-
+    //Tạo 2 con trỏ p1 và p2 trỏ vào đầu mỗi List poly1 và poly2
     Node *p1 = poly1->first;
     Node *p2 = poly2->first;
 
