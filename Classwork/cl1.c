@@ -55,8 +55,8 @@ int main(){
     }
     
     int n = sizeof(arr)/sizeof(arr[0]);
-    BubbleSort(arr, n);
-    print_array(arr, n);
+    //BubbleSort(arr, n);
+    //print_array(arr, n);
 
     return 0;
 }

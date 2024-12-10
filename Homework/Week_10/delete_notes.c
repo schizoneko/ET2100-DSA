@@ -26,8 +26,8 @@ void init_List(List *list) { //Hàm khởi tạo List
 
 Node* create_Node(int data) {
     Node *newNode = (Node*) malloc(sizeof(Node)); //Tạo một con trỏ kiểu Node tên newnode, sau đó cấp phát một vùng nhớ cho đối tượng Node và gán địa chỉ của nó vào newNode
-    node->data = data;
-    node->next = NULL;
+    Node->data = data;
+    Node->next = NULL;
     return newNode; //Trả về con trỏ newNode trỏ tới vùng nhớ của node vừa được cấp phát và khởi tạo.
 }
 
