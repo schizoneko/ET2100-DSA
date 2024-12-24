@@ -1,169 +1,145 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h>   
+#include <stdlib.h>  
 
-// Cấu trúc của một node trong cây AVL
+// Define the structure of a node in the AVL tree
 typedef struct AVLNode {
-    int key;
-    int height;
-    struct AVLNode* left;
-    struct AVLNode* right;
+    int value;               // The value stored in the node
+    int height;              // The height of the node
+    struct AVLNode* leftChild;  // Pointer to the left child
+    struct AVLNode* rightChild; // Pointer to the right child
 } AVLNode;
 
-// Hàm tạo một node mới
-AVLNode* createNode(int key) {
-    AVLNode* node = (AVLNode*)malloc(sizeof(AVLNode));
-    node->key = key;
-    node->height = 1; // Chiều cao của node mới là 1
-    node->left = NULL;
-    node->right = NULL;
-    return node;
+// Function to create a new node
+AVLNode* createNewNode(int value) {
+    AVLNode* newNode = (AVLNode*)malloc(sizeof(AVLNode)); // Allocate memory for a new node
+    newNode->value = value;                              // Set the value of the new node
+    newNode->height = 1;                                 // Initialize height as 1 (leaf node)
+    newNode->leftChild = NULL;                           // Set the left child to NULL
+    newNode->rightChild = NULL;                          // Set the right child to NULL
+    return newNode;                                      // Return the newly created node
 }
 
-// Hàm lấy chiều cao của một node
-int getHeight(AVLNode* node) {
-    if (node == NULL) {
-        return 0;
+// Function to calculate the height of a node
+int calcHeight(AVLNode* treeNode) {
+    if (treeNode == NULL) {                              // Check if the node is NULL
+        return 0;                                        // Height of a NULL node is 0
     }
-    return node->height;
+    return treeNode->height;                             // Return the height of the node
 }
 
-// Hàm tính hệ số cân bằng của một node
-int getBalance(AVLNode* node) {
-    if (node == NULL) {
-        return 0;
+// Function to calculate the balance factor of a node
+int calcBalanceFactor(AVLNode* treeNode) {
+    if (treeNode == NULL) {                              // Check if the node is NULL
+        return 0;                                        // Balance factor of a NULL node is 0
     }
-    return getHeight(node->left) - getHeight(node->right);
+    return calcHeight(treeNode->leftChild) - calcHeight(treeNode->rightChild); // Calculate balance factor
 }
 
-// Hàm xoay phải
-AVLNode* rotateRight(AVLNode* y) {
-    printf("Thực hiện xoay phải tại node %d\n", y->key);
-    AVLNode* x = y->left;
-    AVLNode* T2 = x->right;
+// Function to perform a right rotation
+AVLNode* performRightRotation(AVLNode* unbalancedNode) {
+    printf("Performing right rotation at node %d\n", unbalancedNode->value); // Print rotation info
+    AVLNode* newRoot = unbalancedNode->leftChild;        // Set the left child as the new root
+    AVLNode* tempSubTree = newRoot->rightChild;          // Temporarily store the right subtree of the new root
 
-    // Thực hiện xoay
-    x->right = y;
-    y->left = T2;
+    newRoot->rightChild = unbalancedNode;               // Set the unbalanced node as the right child of the new root
+    unbalancedNode->leftChild = tempSubTree;            // Attach the temporarily stored subtree
 
-    // Cập nhật chiều cao
-    y->height = 1 + (getHeight(y->left) > getHeight(y->right) ? getHeight(y->left) : getHeight(y->right));
-    x->height = 1 + (getHeight(x->left) > getHeight(x->right) ? getHeight(x->left) : getHeight(x->right));
+    // Update the heights of the affected nodes
+    unbalancedNode->height = 1 + (calcHeight(unbalancedNode->leftChild) > calcHeight(unbalancedNode->rightChild) ? calcHeight(unbalancedNode->leftChild) : calcHeight(unbalancedNode->rightChild));
+    newRoot->height = 1 + (calcHeight(newRoot->leftChild) > calcHeight(newRoot->rightChild) ? calcHeight(newRoot->leftChild) : calcHeight(newRoot->rightChild));
 
-    return x;
+    return newRoot;                                     // Return the new root after rotation
 }
 
-// Hàm xoay trái
-AVLNode* rotateLeft(AVLNode* x) {
-    printf("Thực hiện xoay trái tại node %d\n", x->key);
-    AVLNode* y = x->right;
-    AVLNode* T2 = y->left;
+// Function to perform a left rotation
+AVLNode* performLeftRotation(AVLNode* unbalancedNode) {
+    printf("Performing left rotation at node %d\n", unbalancedNode->value); // Print rotation info
+    AVLNode* newRoot = unbalancedNode->rightChild;       // Set the right child as the new root
+    AVLNode* tempSubTree = newRoot->leftChild;           // Temporarily store the left subtree of the new root
 
-    // Thực hiện xoay
-    y->left = x;
-    x->right = T2;
+    newRoot->leftChild = unbalancedNode;                // Set the unbalanced node as the left child of the new root
+    unbalancedNode->rightChild = tempSubTree;           // Attach the temporarily stored subtree
 
-    // Cập nhật chiều cao
-    x->height = 1 + (getHeight(x->left) > getHeight(x->right) ? getHeight(x->left) : getHeight(x->right));
-    y->height = 1 + (getHeight(y->left) > getHeight(y->right) ? getHeight(y->left) : getHeight(y->right));
+    // Update the heights of the affected nodes
+    unbalancedNode->height = 1 + (calcHeight(unbalancedNode->leftChild) > calcHeight(unbalancedNode->rightChild) ? calcHeight(unbalancedNode->leftChild) : calcHeight(unbalancedNode->rightChild));
+    newRoot->height = 1 + (calcHeight(newRoot->leftChild) > calcHeight(newRoot->rightChild) ? calcHeight(newRoot->leftChild) : calcHeight(newRoot->rightChild));
 
-    return y;
+    return newRoot;                                     // Return the new root after rotation
 }
 
-// Hàm thêm một node mới vào cây AVL
-AVLNode* insertNode(AVLNode* node, int key) {
-    // Thực hiện chèn bình thường
-    if (node == NULL) {
-        return createNode(key);
+// Function to insert a new node into the AVL tree
+AVLNode* addNodeToAVLTree(AVLNode* rootNode, int value) {
+    if (rootNode == NULL) {                             // If the tree is empty, create a new node
+        return createNewNode(value);                    // Return the new node as the root
     }
 
-    if (key < node->key) {
-        node->left = insertNode(node->left, key);
-    } else if (key > node->key) {
-        node->right = insertNode(node->right, key);
-    } else {
-        return node; // Không cho phép giá trị trùng lặp
+    if (value < rootNode->value) {                      // If the value is smaller, insert into the left subtree
+        rootNode->leftChild = addNodeToAVLTree(rootNode->leftChild, value);
+    } else if (value > rootNode->value) {               // If the value is larger, insert into the right subtree
+        rootNode->rightChild = addNodeToAVLTree(rootNode->rightChild, value);
+    } else {                                            // If the value already exists, do nothing
+        return rootNode;                                // Return the current root
     }
 
-    // Cập nhật chiều cao của node
-    node->height = 1 + (getHeight(node->left) > getHeight(node->right) ? getHeight(node->left) : getHeight(node->right));
+    // Update the height of the current node
+    rootNode->height = 1 + (calcHeight(rootNode->leftChild) > calcHeight(rootNode->rightChild) ? calcHeight(rootNode->leftChild) : calcHeight(rootNode->rightChild));
 
-    // Kiểm tra hệ số cân bằng
-    int balance = getBalance(node);
+    // Calculate the balance factor to check for imbalance
+    int balance = calcBalanceFactor(rootNode);
 
-    // Trường hợp mất cân bằng
-    // Trái - Trái
-    if (balance > 1 && key < node->left->key) {
-        return rotateRight(node);
+    // Perform rotations based on the balance factor
+    if (balance > 1 && value < rootNode->leftChild->value) { // Left-Left case
+        return performRightRotation(rootNode);
     }
 
-    // Phải - Phải
-    if (balance < -1 && key > node->right->key) {
-        return rotateLeft(node);
+    if (balance < -1 && value > rootNode->rightChild->value) { // Right-Right case
+        return performLeftRotation(rootNode);
     }
 
-    // Trái - Phải
-    if (balance > 1 && key > node->left->key) {
-        node->left = rotateLeft(node->left);
-        return rotateRight(node);
+    if (balance > 1 && value > rootNode->leftChild->value) { // Left-Right case
+        rootNode->leftChild = performLeftRotation(rootNode->leftChild);
+        return performRightRotation(rootNode);
     }
 
-    // Phải - Trái
-    if (balance < -1 && key < node->right->key) {
-        node->right = rotateRight(node->right);
-        return rotateLeft(node);
+    if (balance < -1 && value < rootNode->rightChild->value) { // Right-Left case
+        rootNode->rightChild = performRightRotation(rootNode->rightChild);
+        return performLeftRotation(rootNode);
     }
 
-    return node;
+    return rootNode;                                     // Return the updated root node
 }
 
-// Hàm in cấu trúc cây theo dạng sơ đồ
-void printTree(AVLNode* root, int space) {
-    if (root == NULL) {
+// Function to print the tree structure as a diagram
+void printTreeStructure(AVLNode* rootNode, int spacing) {
+    if (rootNode == NULL) {                              // If the node is NULL, return
         return;
     }
 
-    space += 10;
+    spacing += 10;                                       // Increase spacing for the next level
 
-    // In cây con phải trước
-    printTree(root->right, space);
+    printTreeStructure(rootNode->rightChild, spacing);   // Print the right subtree
 
-    // In node hiện tại
-    printf("\n");
-    for (int i = 10; i < space; i++) {
+    printf("\n");                                        // Move to the next line
+    for (int i = 10; i < spacing; i++) {                 // Add spaces for formatting
         printf(" ");
     }
-    printf("%d\n", root->key);
+    printf("%d\n", rootNode->value);                     // Print the value of the current node
 
-    // In cây con trái
-    printTree(root->left, space);
-}
-
-// Duyệt cây theo thứ tự Inorder
-void inorderTraversal(AVLNode* root) {
-    if (root != NULL) {
-        inorderTraversal(root->left);
-        printf("%d ", root->key);
-        inorderTraversal(root->right);
-    }
+    printTreeStructure(rootNode->leftChild, spacing);    // Print the left subtree
 }
 
 int main() {
-    AVLNode* root = NULL;
-    int elements[] = {10, 20, 30, 40, 50, 25};
-    int size = sizeof(elements) / sizeof(elements[0]);
+    AVLNode* rootNode = NULL;                            // Initialize the root of the tree
+    int elements[] = {10, 20, 30, 40, 50, 25};           // Array of elements to insert into the tree
+    int size = sizeof(elements) / sizeof(elements[0]);   // Calculate the size of the array
 
-    printf("Quá trình thêm phần tử vào cây AVL:\n");
+    printf("Adding elements to the AVL Tree:\n");        // Print the operation being performed
 
-    for (int i = 0; i < size; i++) {
-        root = insertNode(root, elements[i]);
-        printf("Sau khi thêm %d:\n", elements[i]);
-
-        printTree(root, 0); // In cấu trúc cây
-
-        printf("Inorder: ");
-        inorderTraversal(root);
-        printf("\n\n");
+    for (int i = 0; i < size; i++) {                     // Loop through all elements in the array
+        rootNode = addNodeToAVLTree(rootNode, elements[i]); // Insert the element into the tree
+        printf("\nAfter adding %d:\n", elements[i]);     // Print the current state of the tree
+        printTreeStructure(rootNode, 0);                // Print the structure of the tree
     }
 
-    return 0;
+    return 0;                                            // End the program
 }
