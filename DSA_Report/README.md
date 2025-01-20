@@ -209,7 +209,7 @@ Traversal is the process of visiting each node in a tree exactly once. There are
 1. **DSA_Report**:
    - **Description**:
      - `Problem.txt`: Contains the problem description and requirements.
-     - `Requirements.txt`: Explains the requirements and details of the algorithm.
+     - `Requirements.txt`: Explains the requirements professor gave.
    - **src**:
      - `Solution.c`: Contains the main source code implementing the algorithm to convert a binary tree into a doubly linked list (DLL).
 
