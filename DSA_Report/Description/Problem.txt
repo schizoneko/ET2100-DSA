@@ -1,0 +1,7 @@
+Binary Tree - Problem number: 35
+Link: https://www.techiedelight.com/place-convert-given-binary-tree-to-doubly-linked-list/
+
+Clone a linked list with random pointer
+
+Write an efficient code to clone a linked list with each node containing an additional random pointer. 
+The random pointer can point to any random node of the linked list or null.

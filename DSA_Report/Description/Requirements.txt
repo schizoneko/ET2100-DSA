@@ -1,0 +1,3 @@
+- Trình bày mô tả giải thuật theo các bước phân tích sơ bộ 
+- Viết mã giả cho phân tích giải thuật chi tiết
+- Cài đặt một ví dụ bao gồm tập dữ liệu đầu vào và đầu ra theo giải thuật tương ứng
