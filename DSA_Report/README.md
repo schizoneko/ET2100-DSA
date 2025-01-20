@@ -56,7 +56,7 @@ Traversal is the process of visiting each node in a tree exactly once. There are
       10
      /  \
     5    20
-   / \   / \
+   / \   / \\
   3   8 15  25
 
 - Preorder Traversal Order: `10, 5, 3, 8, 20, 15, 25`
@@ -225,7 +225,7 @@ Traversal is the process of visiting each node in a tree exactly once. There are
      Doubly Linked List: 3 <-> 5 <-> 8 <-> 10 <-> 15 <-> 20 <-> 25
      ```
     - **Actual output**:
-        ![alt text](image.png)
+        ![alt text](assets/image.png)
 
 ---
 
