@@ -17,12 +17,13 @@
 - Binary trees are widely used in various algorithms, such as searching, sorting, and hierarchical storage.
 
 #### **Example of a Binary Tree**:
-
+```
       10
      /  \
     5    20
    / \   / \
   3   8 15  25
+```
 
 - Each node has a `value` and at most two children (`left` and `right`).
 
@@ -36,8 +37,9 @@
     - A pointer to the next node (`next`).
 - The DLL allows traversal in both forward and backward directions.
 - Example of a DLL:
-
+```
     3 <-> 5 <-> 8 <-> 10 <-> 15 <-> 20 <-> 25
+```
 
 ---
 
@@ -52,12 +54,13 @@ Traversal is the process of visiting each node in a tree exactly once. There are
  - Traverse the left and right subtrees first, then visit the root.
 
 #### **Example on the Binary Tree:**
-
+```
       10
      /  \
     5    20
-   / \   / \\
+   / \   / \
   3   8 15  25
+```
 
 - Preorder Traversal Order: `10, 5, 3, 8, 20, 15, 25`
 - Inorder Traversal Order: `3, 5, 8, 10, 15, 20, 25`
@@ -182,12 +185,13 @@ Traversal is the process of visiting each node in a tree exactly once. There are
 ## **IV. Example**
 
 #### **Binary Tree example**:
-
+```
       10
      /  \
     5    20
    / \   / \
   3   8 15  25
+```
 
 #### **Input**:
 - The root of the binary tree.
