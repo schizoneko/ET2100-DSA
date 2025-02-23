@@ -1,0 +1,8 @@
+1. Cài đặt cấu trúc LIFO (Stack) bằng cấu trúc lưu trữ tuần tự, 
+kiểu dữ liệu của ngăn xếp được tổng quát hóa. Viết hàm main khai 
+báo một Ngăn xếp chứa các cuốn sách. Thông tin của một cuốn sách  
+gồm: mã số sách (int), tên sách (mảng ký tự), đơn giá (long). 
+Hiển thị ra màn hình đơn giá trung bình của các cuốn sách trong Stack.
+2. Cài đặt danh sách tổng quát bằng CTLT tuần tự (với danh sách tổng 
+quát, việc bổ sung và lấy ra một phần tử có thể thực hiện ở một vị trí 
+bất kỳ trong danh sách). Các phần tử có kiểu float.
