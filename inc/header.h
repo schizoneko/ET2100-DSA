@@ -7,6 +7,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
+#include <math.h>
+#include <ctype.h>
 
 // Macros
 #define MAX 256

@@ -19,7 +19,7 @@ void display_queue(DocQueue *q) {
     while (1) {
         printf("Document Name: %s\n", q->data[i].name);
         printf("Content: %s\n", q->data[i].content);
-        printf("Size: %d\n Mb", q->data[i].size);
+        printf("Size: %f\n Mb", q->data[i].size);
         printf("---------------------\n");
 
         if (i == q->rear) break;
@@ -41,7 +41,7 @@ int main() {
         printf("4. Exit\n");
         printf("Choose an option: ");
         scanf("%d", &choice);
-        getchar(); 
+        getchar(); // Clear the buffer, prevent errors
 
         switch (choice) {
             case 1:

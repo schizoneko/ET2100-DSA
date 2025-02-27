@@ -27,8 +27,8 @@ bool typename##_push(typename *s, type value) {  \
                                                  \
 type typename##_pop(typename *s) {               \
     if (typename##_empty(s)) {                   \
-        printf("Stack underflow!\n");            \
-        exit(1);                                 \
+        printf("Stack is empty!\n");             \
+        return -1;                               \
     }                                            \
     return s->data[(s->top)--];                  \
 }                                                \
@@ -36,7 +36,7 @@ type typename##_pop(typename *s) {               \
 type typename##_peek(typename *s) {              \
     if (typename##_empty(s)) {                   \
         printf("Stack is empty!\n");             \
-        exit(1);                                 \
+        return -1;                               \
     }                                            \
     return s->data[s->top];                      \
 }
