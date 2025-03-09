@@ -1,4 +1,4 @@
-# Ứng dụng Stack và Queue
+# ASSIGNMENT 2
 
 ## 1. Ứng dụng Stack để kiểm tra tính hợp lệ của các cặp dấu ngoặc `()`
 - Nhập vào một chuỗi ký tự từ bàn phím.

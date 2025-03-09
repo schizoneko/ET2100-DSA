@@ -1,7 +1,19 @@
 {
   "C_Cpp.errorSquiggles": "disabled",
   "files.associations": {
-    "cl4": "cpp"
+    "cl4": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "vector": "cpp",
+    "string_view": "cpp",
+    "span": "cpp",
+    "charconv": "cpp",
+    "compare": "cpp",
+    "functional": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp",
+    "variant": "cpp"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
