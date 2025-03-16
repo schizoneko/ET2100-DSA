@@ -1,4 +1,5 @@
 *.exe
 .vscode/
+.git_backup
 test.c
 notes.txt

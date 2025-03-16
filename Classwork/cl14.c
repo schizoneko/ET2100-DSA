@@ -92,6 +92,46 @@ void display_list(LinkedList list) {
     }
 }
 
+void delete_end(LinkedList *l) {
+    if(isEmpty(*l)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    if((*l)->next == NULL) {
+        free(*l);
+        (*l) == NULL;
+        return;
+    }
+
+
+
+} 
+
+void delete_current(LinkedList *l, Node* p) {
+    if(isEmpty(*l)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    if(p == NULL) {
+        printf("Node not exist.\n");
+        return;
+    }
+    
+    if(p == *l && *l->next == NULL) {
+        free(p);
+        *l = NULL;
+    }
+
+    Node* ptr = *l;
+    while(ptr->next->next != p) {
+        ptr = ptr->next;
+    }
+    ptr->next = p->next;
+    free(p);
+}
+
 void free_list(LinkedList *list) {
     Node* current = *list;
     Node* next_node;
