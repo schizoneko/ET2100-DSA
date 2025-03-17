@@ -44,7 +44,7 @@ int pop(Stack *s) {
     }
     Node* temp = s->top;
     int data = temp->data;
-    temp->data = s->top->next;
+    s->top = s->top->next;
     free(temp);
     return data;
 }
@@ -54,21 +54,22 @@ int peek(Stack *s) {
         printf("Stack underflow.\n");
         return -1;
     }
-    return stack->top->data;
+    return s->top->data;
 }
 
 void display_Stack(Stack *s) {
     if(is_Empty(s)) {
-        printf("Stack underflow.\n");
-        return -1;
+        printf("Stack is empty.\n");
+        return;
     }
 
-    Node* temp = stack->top;
-    printf("Data in queue: ");
+    Node* temp = s->top;
+    printf("Stack:");
     while(temp != NULL){
         printf("%d ", temp->data);
         temp = temp->next;
     }
+    printf("NULL\n");
 }
 
 void free_Stack(Stack *s) {

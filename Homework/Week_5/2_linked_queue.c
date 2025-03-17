@@ -13,16 +13,16 @@ typedef struct Node {
 } Node;
 
 typedef struct Queue {
-    Queue* front;
-    Queue* rear;
+    Node* front;
+    Node* rear;
 } Queue;
 
 void init_Queue(Queue *q) {
-    q->front = q->rear = -1;
+    q->front = q->rear = NULL;
 }
 
 bool is_empty(Queue *q) {
-    return(q->front == -1);
+    return(q->front == NULL);
 }
 
 Node* create_node(int k) {
@@ -41,7 +41,6 @@ void enqueue(Queue* q, int value) {
         q->rear->next = newNode;
         q->rear = newNode;
     }
-    printf("Added %d to the queue.\n", value);
 }
 
 int dequeue(Queue* q) {
@@ -75,6 +74,7 @@ void display_Queue(Queue* q) {
         printf("Queue is empty!\n");
         return;
     }
+
     Node* temp = q->front;
     printf("Queue: ");
     while (temp != NULL) {
@@ -85,10 +85,13 @@ void display_Queue(Queue* q) {
 }
 
 void free_Queue(Queue* q) {
-    while (!is_empty(q)) {
-        dequeue(q);
+    Node* temp;
+    while (q->front != NULL) {
+        temp = q->front;
+        q->front = q->front->next;
+        free(temp);
     }
-    printf("Queue memory freed.\n");
+    q->rear = NULL;
 }
 
 int main() {
@@ -103,8 +106,6 @@ int main() {
 
     printf("Dequeued: %d\n", dequeue(&q));
     display_Queue(&q);
-
-    printf("Front element in queue: %d\n", peek(&q));
 
     free_Queue(&q);
     return 0;
