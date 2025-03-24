@@ -1,4 +1,5 @@
 #include "../../inc/header.h"
+#define Array_Queue
 
 typedef struct {
     string name;

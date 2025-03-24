@@ -10,7 +10,7 @@
 #include <math.h>
 #include <ctype.h>
 
-// Macros
+// Config
 #define MAX 256
 typedef char string[MAX]; 
 

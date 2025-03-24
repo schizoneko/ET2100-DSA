@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#ifdef Array_Queue
 #define DECLARE_QUEUE(type, typename) \
 typedef struct {                      \
     type data[MAX];                   \
@@ -54,5 +55,55 @@ type typename##_peek(typename *q) {   \
     }                                 \
     return q->data[q->front];         \
 }
+#endif
+
+#ifdef List_Queue
+#define DECLARE_QUEUE(type, typename)                      \
+typedef struct typename##_Node {                           \
+    type data;                                             \
+    struct typename##_Node* next;                          \
+} typename##_Node;                                         \
+                                                           \
+typedef struct {                                           \
+    typename##_Node* front;                                \
+    typename##_Node* rear;                                 \
+} typename;                                                \
+                                                           \
+void typename##_init(typename* q) {                        \
+    q->front = q->rear = NULL;                             \
+}                                                          \
+                                                           \
+bool typename##_empty(typename* q) {                       \
+    return q->front == NULL;                               \
+}                                                          \
+                                                           \
+bool typename##_enqueue(typename* q, type value) {         \
+    typename##_Node* newNode =                             \
+        (typename##_Node*)malloc(sizeof(typename##_Node)); \
+    if (!newNode) return false;                            \
+    newNode->data = value;                                 \
+    newNode->next = NULL;                                  \
+    if (q->rear) {                                         \
+        q->rear->next = newNode;                           \
+    } else {                                               \
+        q->front = newNode;                                \
+    }                                                      \
+    q->rear = newNode;                                     \
+    return true;                                           \
+}                                                          \
+                                                           \
+type typename##_dequeue(typename* q) {                     \
+    if (typename##_empty(q)) {                             \
+        printf("Queue underflow!\n");                      \
+        exit(1);                                           \
+    }                                                      \
+    typename##_Node* temp = q->front;                      \
+    type value = temp->data;                               \
+    q->front = temp->next;                                 \
+    if (!q->front) q->rear = NULL;                         \
+    free(temp);                                            \
+    return value;                                          \
+}
+#endif
 
 #endif // QUEUE_H
