@@ -7,3 +7,13 @@ node trong một danh sách liên kết đơn
 3. Nếu xuất hiện từ láy (cấu thành từ hai từ giống nhau ví dụ: xanh xanh), thực 
     hiện loại bỏ một từ 
 4. Thực hiện đếm số từ vựng xuất hiện trong câu. */
+
+#include "inc/header.h"
+
+typedef struct Word {
+    char data[MAX];
+    struct Word* next;
+} Word;
+
+
+

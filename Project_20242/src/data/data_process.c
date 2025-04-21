@@ -13,25 +13,26 @@ void read_students_csv(const char* filename, Student_List* list) {
         if (!s) continue;
         s->next = NULL;
 
-        sscanf(line, "%[^,],%hd/%hd/%u,%d,%[^,],%[^,],%d,%hd/%hd/%u",
-            s->name,
-            &s->birth.day, &s->birth.month, &s->birth.year,
+        int day, month, year;
+        sscanf(line, "%99[^,],%hd/%hd/%u,%d,%99[^,],%99[^,],%d,%hd/%hd/%u",
+            s->name, 
+            &s->birth.day, &s->birth.month, &s->birth.year, 
             (int*)&s->sex,
-            s->parent_name,
-            s->address,
+            s->parent_name, s->address,
             &s->tuition.money,
-            &s->tuition.payment_time.day,
-            &s->tuition.payment_time.month,
-            &s->tuition.payment_time.year
+            &s->tuition.payment_time.day, &s->tuition.payment_time.month, &s->tuition.payment_time.year
         );
 
+        // Nếu danh sách trống, gán cả first và last là sinh viên mới
         if (list->first == NULL) {
             list->first = list->last = s;
         } else {
+            // Nếu danh sách không trống, gán s vào cuối danh sách
             list->last->next = s;
             list->last = s;
         }
     }
+
     fclose(file);
 }
 
@@ -57,6 +58,7 @@ void write_students_csv(const char* filename, Student_List* list) {
         );
         s = s->next;
     }
+
     fclose(file);
 }
 
@@ -66,7 +68,8 @@ void read_teachers_csv(const char* filename, Teacher_List* list) {
         perror("Failed to open teacher file");
         return;
     }
-    char line[128];
+
+    char line[MAX_LINE_LENGTH];
     while (fgets(line, sizeof(line), file)) {
         Teacher* t = (Teacher*)malloc(sizeof(Teacher));
         if (!t) continue;
