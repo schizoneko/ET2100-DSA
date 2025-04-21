@@ -35,11 +35,12 @@ typedef struct {
 
 typedef struct Student {
     char name[MAX_NAME_LENGTH];
+    int id;
     Date birth;
     Sex sex;
     Receipt tuition;
 
-    char parent_name[MAX_NAME_LENGTH];
+    char parent_name[MAX_NAME_LENGTH]; //do your mom
     char address[MAX_LINE_LENGTH];
     
     struct Student* next;
@@ -53,6 +54,7 @@ typedef struct {
 typedef struct Teacher {
     char name[MAX_NAME_LENGTH];
     char subject[MAX_NAME_LENGTH];
+    int id;
     Sex sex;
 
     struct Teacher* next;

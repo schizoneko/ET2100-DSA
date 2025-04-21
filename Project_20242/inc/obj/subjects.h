@@ -1,3 +1,6 @@
+#ifndef SUBJECTS_H
+#define SUBJECTS_H
+
 #include "../config.h"
 #include "../data_struct.h"
 
@@ -19,3 +22,5 @@ bool add_subject_to_schedule(ClassSchedule* schedule, Subject* subject) {
     schedule->count++;
     return true;
 }
+
+#endif
