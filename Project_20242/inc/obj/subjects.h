@@ -1,26 +1,18 @@
-#ifndef SUBJECTS_H
-#define SUBJECTS_H
+#ifndef SUBJECT_H
+#define SUBJECT_H
 
-#include "../config.h"
-#include "../data_struct.h"
+#include "header.h"
 
-bool add_subject_to_schedule(ClassSchedule* schedule, Subject* subject) {
-    if (schedule->count >= MAX_SUBJECTS) 
-    return false;
+void init_subject_list(Subject_List* list);
 
-    // Kiểm tra trùng lịch học
-    for (int i = 0; i < schedule->count; i++) {
-        if (schedule->entries[i].time.weekday == subject->time.weekday &&
-            !(subject->time.hour_end <= schedule->entries[i].time.hour_start ||
-              subject->time.hour_start >= schedule->entries[i].time.hour_end)) {
-            return false; // Trùng giờ
-        }
-    }
+Subject* create_subject(const char* name, int fee_per_week, Timeslot time);
 
-    schedule->entries[schedule->count].subject = subject;
-    schedule->entries[schedule->count].time = subject->time;
-    schedule->count++;
-    return true;
-}
+void insert_subject(Subject_List* list, Subject* new_subject);
+
+Subject* search_subject(Subject_List* list, const char* name);
+
+void list_subjects(Subject_List* list);
+
+void list_subjects_by_time(Subject_List* list, Weekday weekday);
 
 #endif

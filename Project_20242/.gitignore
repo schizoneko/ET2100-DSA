@@ -1,5 +1,5 @@
 *.exe
+*.o
 .vscode/
 .git_backup
 notes.txt
-class_test

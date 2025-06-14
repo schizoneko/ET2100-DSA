@@ -33,30 +33,24 @@ typedef struct {
     Date payment_time;
 } Receipt;
 
-typedef struct Student {
-    char name[MAX_NAME_LENGTH];
-    int id;
-    Date birth;
-    Sex sex;
-    Receipt tuition;
-
-    char parent_name[MAX_NAME_LENGTH]; //do your mom
-    char address[MAX_LINE_LENGTH];
-    
-    struct Student* next;
-} Student;
+typedef struct Subject {
+    char name[MAX_NAME_LENGTH];       
+    int fee_per_week;                 
+    Timeslot time;                     
+    struct Subject* next;
+} Subject;
 
 typedef struct {
-    Student* first;
-    Student* last;
-} Student_List;
+    Subject* first;
+    Subject* last;
+} Subject_List;
 
 typedef struct Teacher {
     char name[MAX_NAME_LENGTH];
-    char subject[MAX_NAME_LENGTH];
     int id;
     Sex sex;
-
+    Subject subject;
+    
     struct Teacher* next;
 } Teacher;
 
@@ -64,13 +58,6 @@ typedef struct {
     Teacher* first;
     Teacher* last;
 } Teacher_List;
-
-typedef struct {
-    char name[MAX_NAME_LENGTH];       
-    int fee_per_week;                 
-    Teacher* teacher;
-    Timeslot time;                 
-} Subject;
 
 typedef struct {
     Subject* subject;       
@@ -82,11 +69,29 @@ typedef struct {
     int count; 
 } Class_Schedule;
 
-typedef struct {
-    char name[MAX_NAME_LENGTH];       
-    Student_List students;            
-    Teacher* main_teacher;           
-    Class_Schedule schedule;
+typedef struct Classroom {
+    char name[MAX_NAME_LENGTH];     
+    Teacher* main_teacher;          
+    Class_Schedule schedule;        
 } Classroom;
+
+typedef struct Student {
+    char name[MAX_NAME_LENGTH];
+    int id;
+    Date birth;
+    Sex sex;
+    Receipt tuition;
+
+    char parent_name[MAX_NAME_LENGTH];
+    char address[MAX_LINE_LENGTH];
+
+    struct Student* next;
+    struct Classroom* classroom;  
+} Student;
+
+typedef struct {
+    Student* first;
+    Student* last;
+} Student_List;
 
 #endif

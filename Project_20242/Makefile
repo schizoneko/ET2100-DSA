@@ -1,33 +1,33 @@
-# Compiler and flags
+# Tên file thực thi
+TARGET = app
+
+# Compiler và cờ biên dịch
 CC = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -Wextra -g -Iinc/ -Iinc/obj -Iinc/data
 
-# Directories
-INC_DIR = inc
+# Thư mục chứa mã nguồn
 SRC_DIR = src
-OBJ_DIR = src/obj
-EXEC = main
 
-# Source files
-SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/data/data_process.c $(OBJ_DIR)/students.c $(OBJ_DIR)/subjects.c $(OBJ_DIR)/teachers.c
+# Tìm tất cả các file .c trong src/*/*.c, src/*.c và main.c
+SRC = $(wildcard $(SRC_DIR)/*/*.c) \
+      $(wildcard $(SRC_DIR)/*.c) \
+      main.c
 
-# Include directories
-INCLUDES = -I$(INC_DIR)
+OBJ = $(SRC:.c=.o) #build thành file object
+all: $(TARGET)
 
-# Object files
-OBJS = $(SRCS:.c=.o)
+# Link các object file thành executable
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Final target: executable
-$(EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $(EXEC)
+# Compile từng file .c thành .o
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Rule to compile each source file into object files
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(OBJ_DIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-# Clean up object files and executable
+# Xóa file .o và file thực thi
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJ) $(TARGET)
+
+# Build và chạy
+run: all
+	./$(TARGET)

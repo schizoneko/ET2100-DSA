@@ -1,21 +1,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-/* Standard libraries ------------------------------*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdint.h>
-#include <math.h>
-#include <ctype.h>
-
 /* Configuration ------------------------------------*/
 // Paths
-#define STUDENT_DATA_PATH "student_data.csv"
-#define TEACHER_DATA_PATH "teacher_data.csv"
-#define SUBJECT_DATA_PATH "subject_data.csv"
-#define CLASSROOM_DATA_PATH "classroom.csv"
+#define STUDENT_DATA_PATH "database/student_data.csv"
+#define TEACHER_DATA_PATH "database/teacher_data.csv"
+#define SUBJECT_DATA_PATH "database/subject_data.csv"
 
 // Params
 #define MAX_LINE_LENGTH 1024

@@ -1,14 +1,18 @@
-#ifndef STUDENTS_H
-#define STUDENTS_H
+#ifndef STUDENT_H
+#define STUDENT_H
 
-#include "../config.h"
-#include "../data_struct.h"
+#include "header.h"
 
-void init_student_list(Student_List* list);  
-Student* create_student(const char* name, Date birth, Sex sex, Receipt tuition, const char* parent_name, const char* address); 
-void insert_student(Student_List* list, Student* new_student); 
-Student* search_student(Student_List* list, int mssv);
-void remove_student(Student_List* list, long mssv);
-void calculate_bill(Student_List* list, long mssv); 
+void init_student_list(Student_List* list);
+
+Student* create_student(const char* name, int id, Date birth, Sex sex, Receipt tuition, const char* parent_name, const char* address, Classroom* classroom);
+
+void insert_student(Student_List* list, Student* new_student);
+
+Student* search_student(Student_List* list, int id);
+
+void remove_student(Student_List* list, int id);
+
+void calculate_bill(Student_List* list, int id);
 
 #endif
