@@ -51,7 +51,7 @@ void list_subjects(Subject_List* list) {
 
     printf("List of Subjects:\n");
     while (temp != NULL) {
-        printf("Name: %s, Fee per Week: %d, Time: %d:%d\n",
+        printf("Name: %s, Fee per Week: %dk dong, Time: %dh - %dh\n",
             temp->name, temp->fee_per_week, temp->time.hour_start, temp->time.hour_end);
         temp = temp->next;
     }
@@ -65,7 +65,7 @@ void list_subjects_by_time(Subject_List* list, Weekday weekday) {
 
     while (temp != NULL) {
         if (temp->time.weekday == weekday) {
-            printf("Name: %s, Fee per Week: %d, Time: %d:%d\n",
+            printf("Name: %s, Fee per Week: %dk dong, Time: %dh - %dh\n",
                 temp->name, temp->fee_per_week, temp->time.hour_start, temp->time.hour_end);
             found = 1;
         }

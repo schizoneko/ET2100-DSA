@@ -98,15 +98,21 @@ int main() {
                             write_students_csv(STUDENT_DATA_PATH, &student_list); // Write to file
                             break;
                         }
-                        case 4:
+                        case 4: {
                             // Calculate bill
                             int id;
                             printf("Enter student ID to calculate tuition: ");
                             scanf("%d", &id);
                             calculate_bill(&student_list, id);
                             break;
+                        }
+                        case 5: {
+                            // Print student list
+                            print_student_list(&student_list);
+                            break;
+                        }
                         case 0:
-                            // Exit student menu
+                            printf("Back to Main Menu.\n");
                             break;
                         default:
                             printf("Invalid choice, please try again.\n");
@@ -175,15 +181,20 @@ int main() {
                             write_teachers_csv(TEACHER_DATA_PATH, &teacher_list); // Write to file
                             break;
                         }
+                        case 4: {
+                            // Print teachers
+                            print_teacher_list(&teacher_list);
+                            break;
+                        }
                         case 0:
-                            // Exit teacher menu
+                            printf("Back to Main Menu.\n");
                             break;
                         default:
                             printf("Invalid choice, please try again.\n");
                             continue;
                     }
 
-                    if (teacher_choice == 0) break; // Exit loop if user chooses 0
+                    if (teacher_choice == 0) break; 
                 }
                 break;
             case 3: {
@@ -234,6 +245,51 @@ int main() {
                         }
 
                         case 3: {
+                            // Thêm môn học
+                            char class_name[MAX_NAME_LENGTH];
+                            char subject_name[MAX_NAME_LENGTH];
+
+                            printf("Enter classroom name to add subject: ");
+                            scanf("%s", class_name);
+
+                            // Tìm classroom từ student list
+                            Classroom* target = NULL;
+                            Student* cur = student_list.first;
+                            while (cur != NULL) {
+                                if (cur->classroom && strcmp(cur->classroom->name, class_name) == 0) {
+                                    target = cur->classroom;
+                                    break;
+                                }
+                                cur = cur->next;
+                            }
+
+                            if (!target) {
+                                printf("Classroom not found.\n");
+                                break;
+                            }
+
+                            printf("Enter subject name to add: ");
+                            scanf("%s", subject_name);
+
+                            // Tìm subject trong danh sách môn học
+                            Subject* subj = subject_list.first;
+                            while (subj != NULL) {
+                                if (strcmp(subj->name, subject_name) == 0) {
+                                    add_subject_to_classroom(target, subj, subj->time);
+                                    printf("Added subject %s to classroom %s.\n", subject_name, class_name);
+                                    break;
+                                }
+                                subj = subj->next;
+                            }
+
+                            if (subj == NULL) {
+                                printf("Subject not found.\n");
+                            }
+
+                            break;
+                        }
+
+                        case 4: {
                             // In toàn bộ học sinh trong một lớp cụ thể
                             char class_name[MAX_NAME_LENGTH];
                             printf("Enter classroom name to list students: ");
@@ -242,7 +298,7 @@ int main() {
                             break;
                         }
 
-                        case 4: {
+                        case 5: {
                             // In thời khóa biểu của classroom
                             char class_name[MAX_NAME_LENGTH];
                             printf("Enter classroom name to print schedule: ");
@@ -267,7 +323,7 @@ int main() {
                             break;
                         }
 
-                        case 5: {
+                        case 6: {
                             // In thông tin lớp học (tên, giáo viên, số học sinh)
                             char class_name[MAX_NAME_LENGTH];
                             printf("Enter classroom name to print info: ");
@@ -292,7 +348,7 @@ int main() {
                         }
 
                         case 0:
-                            // Thoát menu
+                            printf("Back to Main Menu.\n");
                             break;
 
                         default:
@@ -308,69 +364,72 @@ int main() {
             case 4:
                 {
                     int subject_choice;
-                    while (subject_choice != 5) {
-                        print_subject_menu();
-                        scanf("%d", &subject_choice);
-                        switch (subject_choice) {
-                            case 1: {
-                                char name[MAX_NAME_LENGTH];
-                                int fee_per_week;
-                                Weekday weekday;
-                                Timeslot time;
-                                int temp_weekday;
+                    print_subject_menu();
+                    scanf("%d", &subject_choice);
+                    getchar();
 
-                                printf("Enter subject name: ");
-                                scanf("%s", name);
-                                printf("Enter fee per week: ");
-                                scanf("%d", &fee_per_week);
-                                printf("Enter weekday (0=Monday, 1=Tuesday, etc.): ");
-                                scanf("%d", &temp_weekday);
-                                printf("Enter start hour: ");
-                                scanf("%hd", &time.hour_start);
-                                printf("Enter end hour: ");
-                                scanf("%hd", &time.hour_end);
+                    switch (subject_choice) {
+                        case 1: {
+                            char name[MAX_NAME_LENGTH];
+                            int fee_per_week;
+                            Weekday weekday;
+                            Timeslot time;
+                            int temp_weekday;
 
-                                weekday = (Weekday)temp_weekday;
-                                time.weekday = weekday;
+                            printf("Enter subject name: ");
+                            scanf("%s", name);
+                            printf("Enter fee per week: ");
+                            scanf("%d", &fee_per_week);
+                            printf("Enter weekday (0=Monday, 1=Tuesday, etc.): ");
+                            scanf("%d", &temp_weekday);
+                            printf("Enter start hour: ");
+                            scanf("%hd", &time.hour_start);
+                            printf("Enter end hour: ");
+                            scanf("%hd", &time.hour_end);
 
-                                Subject* new_subject = create_subject(name, fee_per_week, time);
-                                insert_subject(&subject_list, new_subject);
-                                write_subjects_csv(SUBJECT_DATA_PATH, &subject_list);
-                                break;
-                            }
-                            case 2: {
-                                char search_name[MAX_NAME_LENGTH];
-                                printf("Enter subject name to search: ");
-                                scanf("%s", search_name);
+                            weekday = (Weekday)temp_weekday;
+                            time.weekday = weekday;
 
-                                Subject* found_subject = search_subject(&subject_list, search_name);
-                                if (found_subject) {
-                                    printf("Found Subject: %s\n", found_subject->name);
-                                } else {
-                                    printf("Subject not found.\n");
-                                }
-                                break;
-                            }
-                            case 3: {
-                                // Liệt kê tất cả các môn học
-                                list_subjects(&subject_list);
-                                break;
-                            }
-                            case 4: {
-                                // Liệt kê môn học theo thời gian
-                                int weekday;
-                                printf("Enter weekday to filter by (0=Monday, 1=Tuesday, etc.): ");
-                                scanf("%d", &weekday);
-                                list_subjects_by_time(&subject_list, (Weekday)weekday);
-                                break;
-                            }
-                            case 5:
-                                printf("Back to Main Menu.\n");
-                                break;
-                            default:
-                                printf("Invalid choice. Please try again.\n");
+                            Subject* new_subject = create_subject(name, fee_per_week, time);
+                            insert_subject(&subject_list, new_subject);
+                            write_subjects_csv(SUBJECT_DATA_PATH, &subject_list);
+                            break;
                         }
+                        case 2: {
+                            char search_name[MAX_NAME_LENGTH];
+                            printf("Enter subject name to search: ");
+                            scanf("%s", search_name);
+
+                            Subject* found_subject = search_subject(&subject_list, search_name);
+                            if (found_subject) {
+                                printf("Found Subject: %s\n", found_subject->name);
+                            } else {
+                                printf("Subject not found.\n");
+                            }
+                            break;
+                        }
+                        case 3: {
+                            // Liệt kê tất cả các môn học
+                            list_subjects(&subject_list);
+                            break;
+                        }
+                        case 4: {
+                            // Liệt kê môn học theo thời gian
+                            int weekday;
+                            printf("Enter weekday to filter by (0=Monday, 1=Tuesday, etc.): ");
+                            scanf("%d", &weekday);
+                            list_subjects_by_time(&subject_list, (Weekday)weekday);
+                            break;
+                        }
+                        case 0:
+                            printf("Back to Main Menu.\n");
+                            break;
+                        default:
+                            printf("Invalid choice. Please try again.\n");
+                            continue;
                     }
+
+                    if (subject_choice == 0) break;
                 }
                 break;
 
@@ -399,7 +458,7 @@ void clear_screen() {
 
 void print_main_menu() {
     //clear_screen();
-    printf("=== Main Menu ===\n");
+    printf("\n=== Main Menu ===\n");
     printf("1. Student Management\n");
     printf("2. Teacher Management\n");
     printf("3. Classroom Management\n");
@@ -410,42 +469,47 @@ void print_main_menu() {
 
 void print_student_menu() {
     //clear_screen();
-    printf("=== Student Menu ===\n");
+    printf("\n=== Student Menu ===\n");
     printf("1. Add Student\n");
     printf("2. Search Student\n");
     printf("3. Remove Student\n");
     printf("4. Calculate Tuition Bill\n");
+    printf("5. Print Student List\n");
     printf("0. Back\n");
     printf("Enter your choice: ");
 }
 
 void print_teacher_menu() {
     //clear_screen();
-    printf("=== Teacher Menu ===\n");
+    printf("\n=== Teacher Menu ===\n");
     printf("1. Add Teacher\n");
     printf("2. Search Teacher\n");
     printf("3. Remove Teacher\n");
+    printf("4. Print Teacher List\n");
     printf("0. Back\n");
     printf("Enter your choice: ");
 }
 
 void print_classroom_menu() {
     //clear_screen();
-    printf("=== Classroom Menu ===\n");
-    printf("1. Add Classroom\n");
-    printf("2. Add Subject to Classroom\n");
-    printf("3. View Classroom Info\n");
-    printf("0. Back\n");
+    printf("\n=== CLASSROOM MENU ===\n");
+    printf("1. Create classroom and assign students\n");
+    printf("2. List all classrooms\n");
+    printf("3. Add subject to a classroom (from subject list)\n");
+    printf("4. List students in a classroom\n");
+    printf("5. Print classroom schedule\n");
+    printf("6. Print classroom info\n");
+    printf("0. Back to main menu\n");
     printf("Enter your choice: ");
 }
 
 void print_subject_menu() {
     //clear_screen();
-    printf("=== Subject Management ===\n");
-    printf("1. Add Subject\n");
-    printf("2. Search Subject\n");
-    printf("3. List All Subjects\n");
-    printf("4. List Subjects by Time\n");
-    printf("5. Back to Main Menu\n");
-    printf("Choose an option: ");
+    printf("\n=== SUBJECT MENU ===\n");
+    printf("1. Add new subject\n");
+    printf("2. Search subject by name\n");
+    printf("3. List all subjects\n");
+    printf("4. List subjects by weekday\n");
+    printf("0. Back to main menu\n");
+    printf("Enter your choice: ");
 }

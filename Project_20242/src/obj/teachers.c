@@ -67,3 +67,11 @@ void remove_teacher(Teacher_List* list, int id) {
     free(temp);
 }
 
+void print_teacher_list(Teacher_List* list) {
+    Teacher* current = list->first;
+    printf("Teacher List:\n");
+    while (current != NULL) {
+        printf("- %s\n", current->name);
+        current = current->next;
+    }
+}

@@ -85,8 +85,17 @@ void calculate_bill(Student_List* list, int id) {
 
         // Total tuition for 4 weeks (per month)
         int monthly_fee = total_fee * 4;
-        printf("Total Monthly Tuition Fee: %d\n", monthly_fee);
+        printf("Total Monthly Tuition Fee: %dk dong\n", monthly_fee);
     } else {
         printf("Student with ID %d not found.\n", id);
+    }
+}
+
+void print_student_list(Student_List* list) {
+    Student* current = list->first;
+    printf("Student List:\n");
+    while (current != NULL) {
+        printf("- %s\n", current->name);
+        current = current->next;
     }
 }

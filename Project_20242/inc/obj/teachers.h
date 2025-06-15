@@ -13,4 +13,6 @@ Teacher* search_teacher(Teacher_List* list, int id);
 
 void remove_teacher(Teacher_List* list, int id);
 
+void print_teacher_list(Teacher_List* list);
+
 #endif

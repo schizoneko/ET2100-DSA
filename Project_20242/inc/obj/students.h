@@ -15,4 +15,6 @@ void remove_student(Student_List* list, int id);
 
 void calculate_bill(Student_List* list, int id);
 
+void print_student_list(Student_List* list);
+
 #endif
