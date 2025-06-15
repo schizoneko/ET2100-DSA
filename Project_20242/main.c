@@ -6,6 +6,7 @@
 #include "classroom.h"
 #include "data_process.h"
 
+void clear_screen();
 void print_student_menu();
 void print_teacher_menu();
 void print_classroom_menu();
@@ -21,7 +22,7 @@ int main() {
     init_student_list(&student_list);
     init_teacher_list(&teacher_list);
     init_subject_list(&subject_list);
-    init_classroom(&classroom, "Class A", NULL); 
+    //init_classroom(&classroom, "Class A", NULL); 
 
     // Read data from CSV files
     read_students_csv(STUDENT_DATA_PATH, &student_list);
@@ -82,6 +83,7 @@ int main() {
                             printf("Enter student ID to search: ");
                             scanf("%d", &mssv);
                             Student* found_student = search_student(&student_list, mssv);
+
                             if (found_student != NULL) {
                                 printf("Found student: %s\n", found_student->name);
                             } else {
@@ -119,8 +121,12 @@ int main() {
                             continue;
                     }
 
-                    if (student_choice == 0) break; // Exit loop if user chooses 0
+                    if (student_choice == 0) {
+                        clear_screen();
+                        break;
+                    } // Exit loop if user chooses 0
                 }
+
                 break;
             case 2:
                 // Teacher menu
@@ -194,10 +200,14 @@ int main() {
                             continue;
                     }
 
-                    if (teacher_choice == 0) break; 
+                    if (teacher_choice == 0) {
+                        clear_screen();
+                        break;
+                    } 
                 }
+
                 break;
-            case 3: {
+            case 3: { // Classroom
                 while (1) {
                     print_classroom_menu();
                     int classroom_choice;
@@ -356,12 +366,16 @@ int main() {
                             continue;
                     }
 
-                    if (classroom_choice == 0) break;
+                    if (classroom_choice == 0) {
+                        clear_screen();
+                        break;
+                    }
                 }
+
                 break;
             }
             
-            case 4:
+            case 4: // Subject
                 {
                     int subject_choice;
                     print_subject_menu();
@@ -429,8 +443,13 @@ int main() {
                             continue;
                     }
 
-                    if (subject_choice == 0) break;
+                    if (subject_choice == 0) {
+                        clear_screen();
+                        break;
+                    }
+                    
                 }
+
                 break;
 
             case 0:
@@ -447,14 +466,14 @@ int main() {
 
     return 0;
 }
-/*
+
 void clear_screen() {
     #ifdef _WIN32
         system("cls");
     #else
         system("clear");
     #endif
-}*/
+}
 
 void print_main_menu() {
     //clear_screen();
